@@ -3,7 +3,7 @@ import * as Router from 'koa-router'
 import * as Logger from 'koa-logger'
 import * as cheerio from 'cheerio'
 import axios from 'axios'
-import { objectSort, objKeySort, getUrl, getData, statisticsWithMoney, statistics, genToSL } from './utils';
+import { objectSort, objKeySort, getUrl, getData, statisticsWithMoney, statistics, genToSL, genToSLS } from './utils';
 import cache from './data'
 
 const app = new Koa()
@@ -37,20 +37,34 @@ router.get('/page/:id', async ctx => {
 router.get('/lalala', async ctx => {
     const start = 1
     let end = 100
-    let i = start, result = [];
+    let i = start, result = [],resultS = [];
     while (end >= i) {
         const curr = await getData(end--)
         result = result.concat(genToSL(curr))
+        resultS = resultS.concat(genToSLS(curr))
     }
     const resultString = result.join('')
+    const resultStringS = resultS.join('')
     const space = resultString.slice(resultString.length - 5);
+    const spaceS = resultStringS.slice(resultString.length - 5);
     const littleTimes = resultString.match(new RegExp(space + '小', 'ig')).length
     const largeTimes = resultString.match(new RegExp(space + '大', 'ig')).length
+    const littleSTimes = resultStringS.match(new RegExp(spaceS + '单', 'ig')).length
+    const largeSTimes = resultStringS.match(new RegExp(spaceS + '双', 'ig')).length
     ctx.body = `
     <div style="flex:1;margin-bottom:20px;font-size:30px;color:grey;display:flex;text-align:center;">
     预测时间:${new Date().getHours()}：${new Date().getMinutes()}</div>
-    <div style="flex:1;font-size:30px;display:flex;text-align:center;">大：出现${largeTimes}次，占比 ${Math.round(largeTimes / (largeTimes + littleTimes) * 100)}%;
-    <br>小：出现${littleTimes}次，占比 ${Math.round(littleTimes / (largeTimes + littleTimes) * 100)}%<div>`
+    <div style="flex:1;font-size:30px;display:flex;text-align:center;">
+    大：出现${largeTimes}次，占比 ${Math.round(largeTimes / (largeTimes + littleTimes) * 100)}%;
+    <br>
+    小：出现${littleTimes}次，占比 ${Math.round(littleTimes / (largeTimes + littleTimes) * 100)}%
+    </div>
+    <br><br>
+    <div style="flex:1;font-size:30px;display:flex;text-align:center;">
+    双：出现${largeSTimes}次，占比 ${Math.round(largeSTimes / (largeSTimes + littleSTimes) * 100)}%;
+    <br>
+    单：出现${littleSTimes}次，占比 ${Math.round(littleSTimes / (largeSTimes + littleSTimes) * 100)}%
+    </div>`
 })
 
 router.get('/total/:id/:end', async ctx => {

@@ -6,7 +6,8 @@
   "author": "yinshuxun <sxyin@alauda.io>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon -e ts -w \"./server\" --exec \"ts-node server\""
+    "dev": "nodemon -e ts -w \"./server\" --exec \"ts-node server\"",
+    "start": "pm2 start server"
   },
   "dependencies": {
     "@types/axios": "^0.14.0",
@@ -19,6 +20,7 @@
     "koa": "^2.5.0",
     "koa-logger": "^3.2.0",
     "koa-router": "^7.4.0",
-    "nodemon": "^1.17.3"
+    "nodemon": "^1.17.3",
+    "pm2": "^2.10.2"
   }
 }

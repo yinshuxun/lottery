@@ -38,6 +38,13 @@ export const genToSL = (arr: number[]): string[] => {
     // }) : []
 }
 
+export const genToSLS = (arr: number[]): string[] => {
+    return arr.map ? arr.map(i => {
+        return i % 2 === 0 ? '双' : '单'
+    }) : []
+}
+
+
 export const statistics = (arr: number[]) => {
     const initArr = genToSL(arr)
     initArr.push('占位')
@@ -76,12 +83,12 @@ export const getData = async (t: number = 1) => {
 //连三升级版
 export const statisticsWithMoney = (arr: number[], baseChoose: string = '大', basePayoff: number = 10, maxSeries: number = 3, percent = 1.95) => {
     const initArr = genToSL(arr)
-    let currMoney = 0, pre_v = initArr[0], pre_i = 0;
+    let currMoney = 0, pre_v = '大', pre_i = 0;
     initArr.forEach((v, i) => {
         if (v === baseChoose && pre_v === v) {
             if (i - pre_i >= 3) {
-                currMoney -= basePayoff
-                currMoney += basePayoff * 1.95
+                currMoney -= basePayoff * 2
+                currMoney += basePayoff * 1.95 * 2
             } else {
                 currMoney -= basePayoff
                 currMoney += basePayoff * 1.95
@@ -94,7 +101,7 @@ export const statisticsWithMoney = (arr: number[], baseChoose: string = '大', b
                 currMoney -= basePayoff * 2
                 currMoney += basePayoff * 2 * 1.95
             } else if (i - pre_i >= 3) {
-                currMoney -= basePayoff * 3.5
+                currMoney -= basePayoff * 4
             }
             pre_v = v
             pre_i = i
@@ -104,12 +111,12 @@ export const statisticsWithMoney = (arr: number[], baseChoose: string = '大', b
             } else if (i - pre_i === 2) {
                 currMoney -= basePayoff * 2
             } else if (i - pre_i >= 3) {
-                currMoney -= basePayoff * 3.5
-                currMoney += basePayoff * 3.5 * 1.95
+                currMoney -= basePayoff * 4
+                currMoney += basePayoff * 4 * 1.95
             }
         } else if (v !== baseChoose && pre_v !== v) {
             if (i - pre_i >= 3) {
-                currMoney -= basePayoff
+                currMoney -= basePayoff * 2
             } else {
                 currMoney -= basePayoff
             }
