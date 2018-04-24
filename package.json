@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon -e ts -w \"./server\" --exec \"ts-node server\"",
-    "start": "pm2 start server"
+    "start": "./node_modules/.bin/pm2 start pm2.config.json",
+    "postinstall":"./node_modules/.bin/pm2 install typescript"
   },
   "dependencies": {
     "@types/axios": "^0.14.0",
