@@ -79,9 +79,103 @@ export const getData = async (t: number = 1) => {
     newArr.reverse()
     return newArr
 }
+//赢10，输10，10，15，15。。
+export const statisticsWithMoney132 = (arr: number[], baseChoose: string = '大', basePayoff: number = 10, maxSeries: number = 4, percent = 1.95) => {
+    const initArr = genToSL(arr)
+    let currMoney = 0, pre_v = '大', pre_i = 0;
+    initArr.forEach((v, i) => {
+        if (v === baseChoose && pre_v === v) {
+            currMoney -= basePayoff * 1
+            currMoney += basePayoff * 1 * 1.95
+        } else if (v === baseChoose && pre_v !== v) {
+            if (i - pre_i === 1) {
+                currMoney -= basePayoff * 1
+                currMoney += basePayoff * 1 * 1.95
+            } else if (i - pre_i === 2) {
+                currMoney -= basePayoff * 1 * 1.5
+                currMoney += basePayoff * 1 * 1.5 * 1.95
+            } else if (i - pre_i === 3) {
+                currMoney -= basePayoff * 1 * 1.5
+                currMoney += basePayoff * 1 * 1.5 * 1.95
+            }
+            pre_v = v
+            pre_i = i
+        } else if (v !== baseChoose && pre_v === v) {
+            if (i - pre_i === 1) {
+                currMoney -= basePayoff * 1
+            } else if (i - pre_i === 2) {
+                currMoney -= basePayoff * 1 * 1.5
+            } else if (i - pre_i === 3) {
+                currMoney -= basePayoff * 1 * 1.5
+            }
+        } else if (v !== baseChoose && pre_v !== v) {
+            currMoney -= basePayoff * 1
+            pre_v = v
+            pre_i = i
+        }
+    })
+    return currMoney
+}
+
+//赢 10，10，15，15xx，输10，10，15，15xx
+export const statisticsWithMoney = (arr: number[], baseChoose: string = '大', basePayoff: number = 10, maxSeries: number = 4, percent = 1.95) => {
+    const initArr = genToSL(arr)
+    let currMoney = 0, pre_v = '大', pre_i = 0;
+    initArr.forEach((v, i) => {
+        if (v === baseChoose && pre_v === v) {
+            if (i - pre_i === 1) {
+                currMoney -= basePayoff * 1
+                currMoney += basePayoff * 1 * 1.95
+            } else if (i - pre_i === 2) {
+                currMoney -= basePayoff * 1 
+                currMoney += basePayoff * 1  * 1.95
+            } else if (i - pre_i === 3) {
+                currMoney -= basePayoff * 1 
+                currMoney += basePayoff * 1  * 1.95
+            } else if (i - pre_i === 0) {
+                currMoney -= basePayoff * 1
+                currMoney += basePayoff * 1 * 1.95
+            }
+        } else if (v === baseChoose && pre_v !== v) {
+            if (i - pre_i === 1) {
+                currMoney -= basePayoff * 1
+                currMoney += basePayoff * 1 * 1.95
+            } else if (i - pre_i === 2) {
+                currMoney -= basePayoff * 1 * 1.5
+                currMoney += basePayoff * 1 * 1.5 * 1.95
+            } else if (i - pre_i === 3) {
+                currMoney -= basePayoff * 1 * 1.5
+                currMoney += basePayoff * 1 * 1.5 * 1.95
+            }
+            pre_v = v
+            pre_i = i
+        } else if (v !== baseChoose && pre_v === v) {
+            if (i - pre_i === 1) {
+                currMoney -= basePayoff * 1
+            } else if (i - pre_i === 2) {
+                currMoney -= basePayoff * 1 * 1.5
+            } else if (i - pre_i === 3) {
+                currMoney -= basePayoff * 1 * 1.5
+            }
+        } else if (v !== baseChoose && pre_v !== v) {
+            if (i - pre_i === 1) {
+                currMoney -= basePayoff * 1
+            } else if (i - pre_i === 2) {
+                currMoney -= basePayoff * 1 
+            } else if (i - pre_i === 3) {
+                currMoney -= basePayoff * 1
+            } else if (i - pre_i === 0) {
+                currMoney -= basePayoff * 1
+            }
+            pre_v = v
+            pre_i = i
+        }
+    })
+    return currMoney
+}
 
 //连三升级版
-export const statisticsWithMoney = (arr: number[], baseChoose: string = '大', basePayoff: number = 10, maxSeries: number = 3, percent = 1.95) => {
+export const statisticsWithMoney_02 = (arr: number[], baseChoose: string = '大', basePayoff: number = 10, maxSeries: number = 3, percent = 1.95) => {
     const initArr = genToSL(arr)
     let currMoney = 0, pre_v = '大', pre_i = 0;
     initArr.forEach((v, i) => {

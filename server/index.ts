@@ -122,7 +122,8 @@ router.get('/init/:id', async (ctx) => {
 })
 
 router.get('/money/:id', async (ctx) => {
-    ctx.body = `盈亏：${statisticsWithMoney(await getData(ctx.params.id))}`
+    // ctx.body = `盈亏：${statisticsWithMoney(await getData(ctx.params.id))}`
+    ctx.body = `盈亏：${statisticsWithMoney([0])}`
 })
 
 router.get('/moneytest', async (ctx) => {
